@@ -1,0 +1,8 @@
+[package]
+name = "rusty-attack"
+version = "0.1.0"
+edition = "2021"
+description = "Rust Missile Attack"
+
+[dependencies]
+macroquad = "0.4.13"
