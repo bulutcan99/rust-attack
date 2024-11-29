@@ -9,5 +9,5 @@ struct Turret {
 struct AntiMissile {
     location: Vec2,
     speed: Vec2,
-    explosion_radius: f32,
+    explosion_radius: u32,
 }
