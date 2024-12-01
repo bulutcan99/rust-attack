@@ -7,4 +7,4 @@ description = "Rust Missile Attack"
 [dependencies]
 macroquad = "0.4.13"
 arrayvec = "0.7.6"
-
+anyhow = "1.0.93"
