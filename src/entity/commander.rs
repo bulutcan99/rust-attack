@@ -1,13 +1,7 @@
-use macroquad::Vec2;
+use super::turret::Turret;
+use arrayvec::ArrayVec;
 
-pub struct Commander {}
-
-struct Turret {
-    location: Vec2,
-}
-
-struct AntiMissile {
-    location: Vec2,
-    speed: Vec2,
-    explosion_radius: u32,
+// First version will have one turret per commander
+pub struct Commander {
+    turrets: ArrayVec<Turret, 1>,
 }
