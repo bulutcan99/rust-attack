@@ -8,10 +8,10 @@ use super::anti_missile::AntiMissile;
 pub struct Turret {
     pub location: Vec2,
     muzzle_point: Vec2,
+    // We will have fire more than 1 anti-missiles simultaneously.
     anti_missiles: ArrayVec<AntiMissile, 1>,
     /// The maximum number of anti-missiles this turret can have in flight at a time.
     max_anti_missiles: u8,
-    angle: f32,
 }
 
 impl Turret {

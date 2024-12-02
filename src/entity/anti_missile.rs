@@ -10,3 +10,8 @@ pub struct AntiMissile {
     explosion_radius: u32,
     target: Vec2,
 }
+
+impl AntiMissile{
+     pub fn new()
+        pub fn explosion(&self)
+}

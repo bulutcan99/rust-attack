@@ -5,6 +5,7 @@ use macroquad::math::Vec2;
 // First version will have one turret per commander
 #[derive(Debug)]
 pub struct Commander {
+    // We will have more than 1 turret simultaneously.
     turrets: ArrayVec<Turret, 1>,
 }
 
@@ -20,6 +21,7 @@ impl Commander {
                 Ok(()) => {
                     reachable_found = true;
                     if turret.fire(target)? {
+                        //TODO: Will calculate after if one turret can hit return true
                         return Ok(true); // Successfully hit
                     }
                 }
