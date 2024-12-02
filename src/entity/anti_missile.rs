@@ -8,10 +8,19 @@ pub struct AntiMissile {
     speed: Vec2,
     /// The radius within which the missile can cause an explosion.
     explosion_radius: u32,
-    target: Vec2,
 }
 
-impl AntiMissile{
-     pub fn new()
-        pub fn explosion(&self)
+impl AntiMissile {
+    pub fn new(location: Vec2, speed: Vec2, explosion_radius: u32) -> Self {
+        Self {
+            location,
+            speed,
+            explosion_radius,
+        }
+    }
+    pub fn explosion(&self) -> Result<(), anyhow::Error> {
+        Ok(())
+    }
+
+    pub fn draw(&self) {}
 }

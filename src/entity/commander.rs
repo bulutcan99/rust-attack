@@ -16,8 +16,10 @@ impl Commander {
 
     pub fn fire(&self, target: Vec2) -> Result<bool, anyhow::Error> {
         let mut reachable_found = false;
+        let mouse = macroquad::prelude::mouse_position();
+        let mouse_vec = Vec2::new(mouse.0, mouse.1);
         for turret in self.turrets.iter() {
-            match self.target_reachable(turret.location, target) {
+            match self.target_reachable(turret.location, mouse_vec) {
                 Ok(()) => {
                     reachable_found = true;
                     if turret.fire(target)? {
@@ -37,13 +39,21 @@ impl Commander {
     }
 
     // Max 45 and 135 degrees are reachable
-    fn target_reachable(&self, location: Vec2, target: Vec2) -> Result<(), anyhow::Error> {
+    fn is_angle_within_limits(
+        location: Vec2,
+        target: Vec2,
+        min_angle: f32,
+        max_angle: f32,
+    ) -> bool {
         let vx = target.x - location.x;
         let vy = target.y - location.y;
-        let theta = vy.atan2(vx);
-        let theta_degree = theta.to_degrees();
-        let theta_normalized = (theta_degree + 360.0) % 360.0;
-        if (45.0..=135.0).contains(&theta_normalized) {
+        let theta = vy.atan2(vx).to_degrees();
+        let theta_normalized = (theta + 360.0) % 360.0;
+        (min_angle..=max_angle).contains(&theta_normalized)
+    }
+
+    fn target_reachable(&self, location: Vec2, mouse: Vec2) -> Result<(), anyhow::Error> {
+        if Self::is_angle_within_limits(location, mouse, 45.0, 135.0) {
             Ok(())
         } else {
             Err(anyhow::anyhow!("Target is not reachable"))
