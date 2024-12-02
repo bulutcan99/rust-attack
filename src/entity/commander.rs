@@ -2,6 +2,8 @@ use super::turret::Turret;
 use arrayvec::ArrayVec;
 use macroquad::math::Vec2;
 
+//TODO: commander, turret ve anti-missile draw
+//anti missilelara mouse ve target verilecek ona gore patlama yapacak
 // First version will have one turret per commander
 #[derive(Debug)]
 pub struct Commander {
@@ -13,6 +15,7 @@ impl Commander {
     pub fn new(turrets: ArrayVec<Turret, 1>) -> Self {
         return Self { turrets };
     }
+    pub fn draw(&self) {}
 
     pub fn fire(&self, target: Vec2) -> Result<bool, anyhow::Error> {
         let mut reachable_found = false;

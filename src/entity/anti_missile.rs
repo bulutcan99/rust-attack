@@ -1,4 +1,4 @@
-use macroquad::math::Vec2;
+use macroquad::math::{bool, Vec2};
 
 /// Represents an anti-missile launched by a turret.
 #[derive(Debug)]
@@ -18,9 +18,17 @@ impl AntiMissile {
             explosion_radius,
         }
     }
-    pub fn explosion(&self) -> Result<(), anyhow::Error> {
+
+    //TODO: belirtilen hiz ve mouse ciktisina gore bulunacagi koordinata gore
+    //target'i vurup vurmamasina gore true, false doncek
+    pub fn hit(&self, target: Vec2, mouse: Vec2) -> Result<bool, anyhow::Error> {
+        Ok(true)
+    }
+
+    fn explosion(&self) -> Result<(), anyhow::Error> {
         Ok(())
     }
 
+    //TODO: her framede yeri guncellenecek
     pub fn draw(&self) {}
 }
