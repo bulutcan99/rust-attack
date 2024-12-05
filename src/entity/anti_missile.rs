@@ -1,4 +1,7 @@
-use macroquad::prelude::{draw_rectangle, mouse_position, Vec2, SKYBLUE};
+use macroquad::{
+    prelude::{draw_rectangle, mouse_position, Vec2, SKYBLUE},
+    shapes::draw_circle,
+};
 
 const BULLET_WIDTH: f32 = 10.0;
 const BULLET_HEIGHT: f32 = 10.0;
@@ -9,6 +12,7 @@ pub struct AntiMissile {
     location: Vec2,
     velocity: Vec2,
     explosion_radius: f32,
+    life_time: f32,
     is_alive: bool,
 }
 
@@ -17,11 +21,13 @@ impl AntiMissile {
         let explosion_radius = 50.0;
         let direction = (target - location).normalize();
         let velocity = direction * 10.0;
+        let lt = 20.0;
 
         Self {
             location,
             velocity,
             explosion_radius,
+            life_time: lt,
             is_alive: true,
         }
     }
@@ -49,21 +55,33 @@ impl AntiMissile {
     }
 
     /// Updates the missile's position.
-    pub fn update(&mut self) {
+    pub fn update(&mut self, delta_time: f32) {
         if self.is_alive {
-            self.location += self.velocity;
+            self.life_time -= delta_time;
+            if self.life_time <= 0.0 {
+                self.explode();
+            }
+            self.location += self.velocity * delta_time;
         }
     }
 
     /// Draws the missile on the screen.
     pub fn draw(&self) {
-        // Draw rectangle needs first point of bullet
-        draw_rectangle(
-            self.location.x - BULLET_WIDTH / 2.0,
-            self.location.y - BULLET_HEIGHT / 2.0,
-            BULLET_WIDTH,
-            BULLET_HEIGHT,
-            SKYBLUE,
-        );
+        if self.is_alive {
+            draw_rectangle(
+                self.location.x - BULLET_WIDTH / 2.0,
+                self.location.y - BULLET_HEIGHT / 2.0,
+                BULLET_WIDTH,
+                BULLET_HEIGHT,
+                SKYBLUE,
+            );
+        } else {
+            draw_circle(
+                self.location.x,
+                self.location.y,
+                self.explosion_radius,
+                macroquad::prelude::ORANGE,
+            );
+        }
     }
 }
