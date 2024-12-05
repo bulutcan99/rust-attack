@@ -1,7 +1,8 @@
 use macroquad::{
-    prelude::{draw_rectangle, mouse_position, Vec2, SKYBLUE},
+    prelude::{draw_rectangle, Vec2, SKYBLUE},
     shapes::draw_circle,
 };
+//TODO: bu kisma birkac test ekleyip logici test edelim.
 
 const MISSILE_WIDTH: f32 = 10.0;
 const MISSILE_HEIGHT: f32 = 10.0;
