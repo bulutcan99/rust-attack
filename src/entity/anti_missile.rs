@@ -3,8 +3,8 @@ use macroquad::{
     shapes::draw_circle,
 };
 
-const BULLET_WIDTH: f32 = 10.0;
-const BULLET_HEIGHT: f32 = 10.0;
+const MISSILE_WIDTH: f32 = 10.0;
+const MISSILE_HEIGHT: f32 = 10.0;
 const MISSILE_SPEED: f32 = 10.0;
 
 /// Represents an anti-missile launched by a turret.
@@ -67,10 +67,10 @@ impl AntiMissile {
     pub fn draw(&self) {
         if self.is_alive {
             draw_rectangle(
-                self.location.x - BULLET_WIDTH / 2.0,
-                self.location.y - BULLET_HEIGHT / 2.0,
-                BULLET_WIDTH,
-                BULLET_HEIGHT,
+                self.location.x - MISSILE_WIDTH / 2.0,
+                self.location.y - MISSILE_HEIGHT / 2.0,
+                MISSILE_WIDTH,
+                MISSILE_HEIGHT,
                 SKYBLUE,
             );
         } else {
