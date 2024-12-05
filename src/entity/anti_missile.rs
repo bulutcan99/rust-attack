@@ -34,17 +34,13 @@ impl AntiMissile {
 
     /// Check if the missile hit the target.
     /// if hits explode return true
-    pub fn hit(&mut self, target: Vec2) -> bool {
-        if self.location.distance(target) <= self.explosion_radius {
-            self.explode();
-            return true;
+    pub fn hit(&mut self, targets: &[Vec2]) -> bool {
+        for target in targets {
+            if self.location.distance(*target) <= self.explosion_radius {
+                self.explode();
+                return true;
+            }
         }
-        let mouse_pos = Vec2::new(mouse_position().0, mouse_position().1);
-        if self.location.distance(mouse_pos) <= self.explosion_radius {
-            self.explode();
-            return true;
-        }
-
         false
     }
 
