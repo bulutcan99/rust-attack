@@ -5,6 +5,7 @@ use macroquad::{
 
 const BULLET_WIDTH: f32 = 10.0;
 const BULLET_HEIGHT: f32 = 10.0;
+const MISSILE_SPEED: f32 = 10.0;
 
 /// Represents an anti-missile launched by a turret.
 #[derive(Debug)]
@@ -20,7 +21,7 @@ impl AntiMissile {
     pub fn new(location: Vec2, target: Vec2) -> Self {
         let explosion_radius = 50.0;
         let direction = (target - location).normalize();
-        let velocity = direction * 10.0;
+        let velocity = direction * MISSILE_SPEED;
         let lt = 20.0;
 
         Self {
@@ -47,6 +48,7 @@ impl AntiMissile {
     /// Simulates an explosion.
     pub fn explode(&mut self) {
         self.is_alive = false;
+        self.life_time = 0.0;
         println!("Explosion at {:?}", self.location);
     }
 
