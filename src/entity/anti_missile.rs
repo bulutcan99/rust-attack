@@ -19,9 +19,9 @@ pub struct AntiMissile {
 }
 
 impl AntiMissile {
-    pub fn new(location: Vec2, target: Vec2) -> Self {
+    pub fn new(location: Vec2, mouse: Vec2) -> Self {
         let explosion_radius = 50.0;
-        let direction = (target - location).normalize();
+        let direction = (mouse - location).normalize();
         let velocity = direction * MISSILE_SPEED;
         let lt = 20.0;
 
@@ -83,4 +83,13 @@ impl AntiMissile {
             );
         }
     }
+}
+
+#[cfg(test)]
+mod tests{
+    use super::*;
+    let mouse = Vec2::new(20.0, 2)
+    let am = AntiMissile::new(, target)
+#[test]
+
 }
