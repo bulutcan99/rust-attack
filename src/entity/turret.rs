@@ -2,6 +2,8 @@ use arrayvec::ArrayVec;
 use macroquad::math::{bool, Vec2};
 
 use super::anti_missile::AntiMissile;
+//TODO: sirada turret var bundan sonrasinda anti_misisle'daki methotlara gore turreti
+//sekillendirecegiz
 
 // The commander will command the turrets
 #[derive(Debug)]
