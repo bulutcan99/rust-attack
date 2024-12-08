@@ -1,5 +1,4 @@
 mod entity;
-#[macroquad::main]
-async fn main() {
+fn main() {
     println!("HELLO!");
 }

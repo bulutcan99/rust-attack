@@ -26,23 +26,23 @@ impl Turret {
         }
     }
 
-    pub fn fire(&self, target: Vec2, mouse: Vec2) -> Result<bool, anyhow::Error> {
-        // Check if we can fire another anti-missile
-        if self.anti_missiles.len() as u8 >= self.max_anti_missiles {
-            return Err(anyhow::anyhow!(
-                "Cannot fire: Maximum anti-missiles in flight reached"
-            ));
-        }
-
-        //TODO: speedi verilen mouse ve target ve belirtilen sureye gore bir hesaplama
-        //yapilip buna gore bir speed verecegiz (ya da speed default bir deger mi vermeliyiz?)
-        let speed = Vec2::new(x, y);
-        let anti_missile = AntiMissile::new(self.location);
-        self.anti_missiles.push(anti_missile);
-
-        // Simulate a successful hit (this should be replaced with actual logic)
-        Ok(true)
-    }
+    // pub fn fire(&self, target: Vec2, mouse: Vec2) -> Result<bool, anyhow::Error> {
+    //     // Check if we can fire another anti-missile
+    //     if self.anti_missiles.len() as u8 >= self.max_anti_missiles {
+    //         return Err(anyhow::anyhow!(
+    //             "Cannot fire: Maximum anti-missiles in flight reached"
+    //         ));
+    //     }
+    //
+    //     //TODO: speedi verilen mouse ve target ve belirtilen sureye gore bir hesaplama
+    //     //yapilip buna gore bir speed verecegiz (ya da speed default bir deger mi vermeliyiz?)
+    //     let speed = Vec2::new(x, y);
+    //     let anti_missile = AntiMissile::new(self.location);
+    //     self.anti_missiles.push(anti_missile);
+    //
+    //     // Simulate a successful hit (this should be replaced with actual logic)
+    //     Ok(true)
+    // }
 
     pub fn draw(&self) {
         // Placeholder for drawing the turret

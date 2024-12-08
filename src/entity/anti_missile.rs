@@ -2,7 +2,6 @@ use macroquad::{
     prelude::{draw_rectangle, Vec2, SKYBLUE},
     shapes::draw_circle,
 };
-//TODO: bu kisma birkac test ekleyip logici test edelim.
 
 const MISSILE_WIDTH: f32 = 10.0;
 const MISSILE_HEIGHT: f32 = 10.0;
@@ -86,10 +85,57 @@ impl AntiMissile {
 }
 
 #[cfg(test)]
-mod tests{
-    use super::*;
-    let mouse = Vec2::new(20.0, 2)
-    let am = AntiMissile::new(, target)
-#[test]
+mod tests {
+    use macroquad::miniquad::PrimitiveType;
 
+    use super::*;
+
+    const LOCATION: Vec2 = Vec2::new(10.0, 5.0);
+    const MOUSE: Vec2 = Vec2::new(10.0, 0.0);
+
+    #[test]
+    fn test_anti_missile_new() {
+        let missile = AntiMissile::new(LOCATION, MOUSE);
+        let velocity = (MOUSE - LOCATION).normalize() * MISSILE_SPEED;
+
+        assert_eq!(missile.location, LOCATION);
+        assert_eq!(missile.velocity, velocity);
+        assert!(missile.is_alive);
+    }
+
+    #[test]
+    fn test_anti_missile_update() {
+        let mut missile = AntiMissile::new(LOCATION, MOUSE);
+        missile.update(1.0);
+        assert!(missile.life_time < 20.0);
+        assert!(missile.is_alive);
+        assert_ne!(missile.location, Vec2::new(10.0, 5.0));
+    }
+
+    #[test]
+    fn test_anti_missile_explode() {
+        let mut missile = AntiMissile::new(Vec2::new(10.0, 10.0), MOUSE);
+        missile.explode();
+
+        assert!(!missile.is_alive);
+        assert_eq!(missile.life_time, 0.0);
+    }
+
+    #[test]
+    fn test_anti_missile_hit() {
+        let mut missile = AntiMissile::new(Vec2::new(10.0, 10.0), MOUSE);
+        let targets: Vec<Vec2> = vec![
+            Vec2::new(10.0, 5.0),
+            Vec2::new(10.0, 4.0),
+            Vec2::new(10.0, 3.0),
+            MOUSE,
+        ];
+        assert!(missile.hit(&targets));
+        assert!(!missile.is_alive);
+
+        let mut missile = AntiMissile::new(Vec2::new(10.0, 10.0), MOUSE);
+        let targets_out_of_range = vec![Vec2::new(1000.0, 1000.0)];
+        assert!(!missile.hit(&targets_out_of_range));
+        assert!(missile.is_alive);
+    }
 }
