@@ -28,6 +28,19 @@ impl Turret {
         }
     }
 
+    fn is_angle_within_limits(
+        location: Vec2,
+        target: Vec2,
+        min_angle: f32,
+        max_angle: f32,
+    ) -> bool {
+        let vx = target.x - location.x;
+        let vy = target.y - location.y;
+        let theta = vy.atan2(vx).to_degrees();
+        let theta_normalized = (theta + 360.0) % 360.0;
+        (min_angle..=max_angle).contains(&theta_normalized)
+    }
+
     // pub fn fire(&self, target: Vec2, mouse: Vec2) -> Result<bool, anyhow::Error> {
     //     // Check if we can fire another anti-missile
     //     if self.anti_missiles.len() as u8 >= self.max_anti_missiles {

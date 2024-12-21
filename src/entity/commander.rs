@@ -42,18 +42,7 @@ impl Commander {
     // }
 
     // Max 45 and 135 degrees are reachable
-    fn is_angle_within_limits(
-        location: Vec2,
-        target: Vec2,
-        min_angle: f32,
-        max_angle: f32,
-    ) -> bool {
-        let vx = target.x - location.x;
-        let vy = target.y - location.y;
-        let theta = vy.atan2(vx).to_degrees();
-        let theta_normalized = (theta + 360.0) % 360.0;
-        (min_angle..=max_angle).contains(&theta_normalized)
-    }
+    //WARN: Should this method belongs to commander?
 
     fn target_reachable(&self, location: Vec2, mouse: Vec2) -> Result<(), anyhow::Error> {
         if Self::is_angle_within_limits(location, mouse, 45.0, 135.0) {
