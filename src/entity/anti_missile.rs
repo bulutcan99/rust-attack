@@ -131,14 +131,13 @@ mod tests {
             Vec2::new(10.0, 5.0),
             Vec2::new(10.0, 4.0),
             Vec2::new(10.0, 3.0),
-            MOUSE,
         ];
-        assert!(missile.check_collision(&targets));
+        assert!(missile.check_collision(MOUSE, &targets));
         assert!(!missile.is_alive);
 
         let mut missile = AntiMissile::new(Vec2::new(10.0, 10.0), MOUSE);
         let targets_out_of_range = vec![Vec2::new(1000.0, 1000.0)];
-        assert!(!missile.check_collision(&targets_out_of_range));
+        assert!(!missile.check_collision(MOUSE, &targets_out_of_range));
         assert!(missile.is_alive);
     }
 }
