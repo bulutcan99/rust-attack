@@ -95,7 +95,7 @@ fn explode();
 ### **Installation**
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/your-repo/rust-attack.git
+   [git clone https://github.com/your-repo/rust-attack.git](https://github.com/bulutcan99/rust-attack.git)
    ```
 2. Navigate to the project directory:  
    ```bash
