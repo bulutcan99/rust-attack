@@ -34,8 +34,13 @@ impl AntiMissile {
     }
 
     /// Check if the missile hit the target.
+    /// (mouse also a target)
     /// if hits explode return true
-    pub fn hit(&mut self, targets: &[Vec2]) -> bool {
+    pub fn check_collision(&mut self, mouse: Vec2, targets: &[Vec2]) -> bool {
+        if self.location.distance(mouse) <= self.explosion_radius {
+            self.explode();
+            return true;
+        }
         for target in targets {
             if self.location.distance(*target) <= self.explosion_radius {
                 self.explode();
@@ -53,7 +58,7 @@ impl AntiMissile {
     }
 
     /// Updates the missile's position.
-    pub fn update(&mut self, delta_time: f32) {
+    pub fn update_position(&mut self, delta_time: f32) {
         if self.is_alive {
             self.life_time -= delta_time;
             if self.life_time <= 0.0 {
@@ -86,8 +91,6 @@ impl AntiMissile {
 
 #[cfg(test)]
 mod tests {
-    use macroquad::miniquad::PrimitiveType;
-
     use super::*;
 
     const LOCATION: Vec2 = Vec2::new(10.0, 5.0);
@@ -106,7 +109,7 @@ mod tests {
     #[test]
     fn test_anti_missile_update() {
         let mut missile = AntiMissile::new(LOCATION, MOUSE);
-        missile.update(1.0);
+        missile.update_position(1.0);
         assert!(missile.life_time < 20.0);
         assert!(missile.is_alive);
         assert_ne!(missile.location, Vec2::new(10.0, 5.0));
@@ -130,12 +133,12 @@ mod tests {
             Vec2::new(10.0, 3.0),
             MOUSE,
         ];
-        assert!(missile.hit(&targets));
+        assert!(missile.check_collision(&targets));
         assert!(!missile.is_alive);
 
         let mut missile = AntiMissile::new(Vec2::new(10.0, 10.0), MOUSE);
         let targets_out_of_range = vec![Vec2::new(1000.0, 1000.0)];
-        assert!(!missile.hit(&targets_out_of_range));
+        assert!(!missile.check_collision(&targets_out_of_range));
         assert!(missile.is_alive);
     }
 }

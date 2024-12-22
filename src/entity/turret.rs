@@ -13,6 +13,8 @@ pub struct Turret {
     anti_missiles: ArrayVec<AntiMissile, 1>,
     /// The maximum number of anti-missiles this turret can have in flight at a time.
     max_anti_missiles: u8,
+    // 0-100 (100 is full)
+    health: u8,
 }
 
 impl Turret {
@@ -25,39 +27,34 @@ impl Turret {
             location,
             anti_missiles,
             max_anti_missiles,
+            health: 100,
         }
     }
 
-    fn is_angle_within_limits(
-        location: Vec2,
-        target: Vec2,
-        min_angle: f32,
-        max_angle: f32,
-    ) -> bool {
-        let vx = target.x - location.x;
-        let vy = target.y - location.y;
+    fn is_target_in_range(&self, target: Vec2, min_angle: f32, max_angle: f32) -> bool {
+        let vx = target.x - self.location.x;
+        let vy = target.y - self.location.y;
         let theta = vy.atan2(vx).to_degrees();
         let theta_normalized = (theta + 360.0) % 360.0;
         (min_angle..=max_angle).contains(&theta_normalized)
     }
 
-    // pub fn fire(&self, target: Vec2, mouse: Vec2) -> Result<bool, anyhow::Error> {
-    //     // Check if we can fire another anti-missile
-    //     if self.anti_missiles.len() as u8 >= self.max_anti_missiles {
-    //         return Err(anyhow::anyhow!(
-    //             "Cannot fire: Maximum anti-missiles in flight reached"
-    //         ));
-    //     }
-    //
     //     //TODO: speedi verilen mouse ve target ve belirtilen sureye gore bir hesaplama
     //     //yapilip buna gore bir speed verecegiz (ya da speed default bir deger mi vermeliyiz?)
     //     let speed = Vec2::new(x, y);
     //     let anti_missile = AntiMissile::new(self.location);
     //     self.anti_missiles.push(anti_missile);
-    //
-    //     // Simulate a successful hit (this should be replaced with actual logic)
-    //     Ok(true)
-    // }
+
+    pub fn aim_and_fire(&self, target: Vec2) -> bool {
+        for missile in self.anti_missiles.iter() {
+            // Örnek: anti-missile hedefi kontrol ediyor
+            if missile.check_collision(target) {
+                println!("Target hit!");
+                return true;
+            }
+        }
+        false
+    }
 
     pub fn draw(&self) {
         // Placeholder for drawing the turret
