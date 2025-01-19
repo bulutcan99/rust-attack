@@ -45,14 +45,8 @@ impl Turret {
     //     let anti_missile = AntiMissile::new(self.location);
     //     self.anti_missiles.push(anti_missile);
 
-    pub fn aim_and_fire(&self, target: Vec2) -> bool {
-        for missile in self.anti_missiles.iter() {
-            // Örnek: anti-missile hedefi kontrol ediyor
-            if missile.check_collision(target) {
-                println!("Target hit!");
-                return true;
-            }
-        }
+    pub fn aim_and_fire(&self, mouse: Vec2, target: Vec2) -> bool {
+        for missile in self.anti_missiles.iter() {}
         false
     }
 
