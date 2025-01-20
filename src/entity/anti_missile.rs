@@ -33,22 +33,24 @@ impl AntiMissile {
         }
     }
 
-    /// Check if the missile hit the mouse.
-    pub fn check_mouse_collision(&mut self, mouse: Vec2) -> bool {
-        if self.location.distance(mouse) <= self.explosion_radius {
-            self.explode();
-            return true;
-        }
-        false
-    }
-
-    /// Check if the missile hit the mouse.
-    pub fn check_collision(&mut self, targets: &[Vec2]) -> bool {
+    /// Checks for collision with a list of targets.
+    pub fn check_collision_general(&mut self, targets: &[Vec2]) -> bool {
         for target in targets {
             if self.location.distance(*target) <= self.explosion_radius {
                 self.explode();
                 return true;
             }
+        }
+        false
+    }
+
+    /// Combines collision checks for both mouse and multiple targets.
+    pub fn check_collision_combined(&mut self, mouse: Vec2, targets: &[Vec2]) -> bool {
+        if self.check_collision_general(&[mouse]) {
+            return true;
+        }
+        if self.check_collision_general(targets) {
+            return true;
         }
         false
     }
@@ -129,15 +131,7 @@ mod tests {
     }
 
     #[test]
-    fn test_check_mouse_collision() {
-        let mut missile = AntiMissile::new(LOCATION, MOUSE);
-        // Mouse is within the explosion radius
-        assert!(missile.check_mouse_collision(MOUSE));
-        assert!(!missile.is_alive);
-    }
-
-    #[test]
-    fn test_check_target_collision() {
+    fn test_check_collision_general() {
         let mut missile = AntiMissile::new(LOCATION, MOUSE);
         let targets = vec![
             Vec2::new(10.0, 5.0),
@@ -146,14 +140,31 @@ mod tests {
         ];
 
         // Target is within the explosion radius
-        assert!(missile.check_collision(&targets));
+        assert!(missile.check_collision_general(&targets));
         assert!(!missile.is_alive);
 
         let mut missile = AntiMissile::new(LOCATION, MOUSE);
         let targets_out_of_range = vec![Vec2::new(1000.0, 1000.0)];
 
         // Targets are out of range
-        assert!(!missile.check_collision(&targets_out_of_range));
+        assert!(!missile.check_collision_general(&targets_out_of_range));
+        assert!(missile.is_alive);
+    }
+
+    #[test]
+    fn test_check_collision_combined() {
+        let mut missile = AntiMissile::new(LOCATION, MOUSE);
+        let targets = vec![Vec2::new(15.0, 5.0), Vec2::new(20.0, 5.0)];
+
+        // Mouse is within the explosion radius
+        assert!(missile.check_collision_combined(MOUSE, &targets));
+        assert!(!missile.is_alive);
+
+        let mut missile = AntiMissile::new(LOCATION, MOUSE);
+        let targets_out_of_range = vec![Vec2::new(1000.0, 1000.0)];
+
+        // Both mouse and targets are out of range
+        assert!(!missile.check_collision_combined(Vec2::new(1000.0, 1000.0), &targets_out_of_range));
         assert!(missile.is_alive);
     }
 }
