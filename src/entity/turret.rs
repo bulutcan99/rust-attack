@@ -38,6 +38,7 @@ impl Turret {
         let theta_normalized = (theta + 360.0) % 360.0;
         (min_angle..=max_angle).contains(&theta_normalized)
     }
+
     pub fn aim_and_fire(&self, mouse: Vec2, target: Vec2) -> bool {
         for missile in self.anti_missiles.iter() {}
         false
