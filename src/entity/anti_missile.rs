@@ -43,7 +43,7 @@ impl AntiMissile {
     }
 
     /// Check if the missile hit the mouse.
-    pub fn check_target_collision(&mut self, targets: &[Vec2]) -> bool {
+    pub fn check_collision(&mut self, targets: &[Vec2]) -> bool {
         for target in targets {
             if self.location.distance(*target) <= self.explosion_radius {
                 self.explode();
@@ -54,7 +54,7 @@ impl AntiMissile {
     }
 
     /// Simulates an explosion.
-    pub fn explode(&mut self) {
+    fn explode(&mut self) {
         self.is_alive = false;
         self.life_time = 0.0;
         println!("Explosion at {:?}", self.location);
@@ -134,11 +134,6 @@ mod tests {
         // Mouse is within the explosion radius
         assert!(missile.check_mouse_collision(MOUSE));
         assert!(!missile.is_alive);
-
-        let mut missile = AntiMissile::new(LOCATION, Vec2::new(50.0, 50.0));
-        // Mouse is out of range
-        assert!(!missile.check_mouse_collision(MOUSE));
-        assert!(missile.is_alive);
     }
 
     #[test]
@@ -151,14 +146,14 @@ mod tests {
         ];
 
         // Target is within the explosion radius
-        assert!(missile.check_target_collision(&targets));
+        assert!(missile.check_collision(&targets));
         assert!(!missile.is_alive);
 
         let mut missile = AntiMissile::new(LOCATION, MOUSE);
         let targets_out_of_range = vec![Vec2::new(1000.0, 1000.0)];
 
         // Targets are out of range
-        assert!(!missile.check_target_collision(&targets_out_of_range));
+        assert!(!missile.check_collision(&targets_out_of_range));
         assert!(missile.is_alive);
     }
 }

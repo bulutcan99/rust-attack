@@ -38,13 +38,6 @@ impl Turret {
         let theta_normalized = (theta + 360.0) % 360.0;
         (min_angle..=max_angle).contains(&theta_normalized)
     }
-
-    //     //TODO: speedi verilen mouse ve target ve belirtilen sureye gore bir hesaplama
-    //     //yapilip buna gore bir speed verecegiz (ya da speed default bir deger mi vermeliyiz?)
-    //     let speed = Vec2::new(x, y);
-    //     let anti_missile = AntiMissile::new(self.location);
-    //     self.anti_missiles.push(anti_missile);
-
     pub fn aim_and_fire(&self, mouse: Vec2, target: Vec2) -> bool {
         for missile in self.anti_missiles.iter() {}
         false
