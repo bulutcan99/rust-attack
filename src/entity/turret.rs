@@ -41,6 +41,10 @@ impl Turret {
             return false; // Cannot fire more missiles than the limit.
         }
 
+        if self.health == 0 {
+            return false;
+        }
+
         let missile = AntiMissile::new(self.location, target);
         self.anti_missiles.push(missile);
         true
@@ -92,7 +96,6 @@ impl Turret {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use arrayvec::ArrayVec;
 
     #[test]
     fn test_turret_new() {
