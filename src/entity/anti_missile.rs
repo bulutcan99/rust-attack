@@ -73,6 +73,11 @@ impl AntiMissile {
         }
     }
 
+    /// Is still alive?
+    pub fn report_alive(&self) -> bool {
+        self.is_alive
+    }
+
     /// Draws the missile on the screen.
     pub fn draw(&self) {
         if self.is_alive {
